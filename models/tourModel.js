@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 const slugify = require('slugify')
-const validator = require('validator')
+// const validator = require('validator')
 
 const tourSchema = new mongoose.Schema({
     name: {
@@ -10,9 +10,13 @@ const tourSchema = new mongoose.Schema({
         trim: true,
         maxlength: [40, 'A tour name must have less or equal then 40 characters'],
         minlength: [10, 'A tour name must have more or equal than 10 characters'],
-        validate: [validator.isAlpha, 'Tour name must only contain characters']
+        // validate: [validator.isAlpha, 'Tour name must only contain characters']
     },
     slug: String,
+    duration: {
+        type: Number,
+        required: [true, 'A tour must have a duration']
+    },
     maxGroupSize: {
         type: Number,
         required: [true, 'A tour must have a group size']
@@ -33,7 +37,7 @@ const tourSchema = new mongoose.Schema({
     },
     ratingsQuantity: {
         type: Number,
-        default: 4.5
+        default: 0
     },
     price: {
         type: Number,
@@ -74,10 +78,12 @@ const tourSchema = new mongoose.Schema({
         type: Boolean,
         default: false
     }
-}, {
+    }, 
+    {
     toJSON: { virtuals: true},
     toObject: { virtuals: true}
-});
+    }
+);
 
 tourSchema.virtual('durationWeeks').get(function() {
     return this.duration / 7;
@@ -119,8 +125,6 @@ tourSchema.pre('aggregate', function(next) {
     console.log(this.pipeline());
     next();
 });
-
-
 
 const Tour = mongoose.model('Tour', tourSchema);
 

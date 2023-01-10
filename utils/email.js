@@ -9,8 +9,8 @@ const sendEmail = async options => {
             user: process.env.EMAIL_USERNAME,
             pass: process.env.EMAIL_PASSWORD
         }
-        // Activate in gmail "less secure app" option
-    })
+    });
+
     // 2) Define the email options
     const mailOptions = {
         from: 'Ubong Nkantah <ubnkantah@gmail.com>',
@@ -18,11 +18,10 @@ const sendEmail = async options => {
         subject: options.subject,
         text: options.message,
         //html;
-
-    }
+    };
 
     // 3) Actually send the email
     await transporter.sendMail(mailOptions);
 }
 
-module.exports 
+module.exports = sendEmail;

@@ -29,17 +29,6 @@ exports.getAllTours = catchAsync(async (req, res) => {
         })
 });
 
-exports.createTour = catchAsync(async (req, res, next) => {
-    const newTour = await Tour.create(req.body);
-
-        res.status(201).json({
-            status: 'success',
-            data: {
-                tour: newTour
-            }
-        })
-})
-
 exports.getTour = catchAsync(async (req, res, next) => {
     const tour = await Tour.findById(req.params.id);
     // Tour.findOne({ _id: req.params.id });
@@ -55,6 +44,18 @@ exports.getTour = catchAsync(async (req, res, next) => {
         }
     })
 });
+
+exports.createTour = catchAsync(async (req, res, next) => {
+    const newTour = await Tour.create(req.body);
+
+        res.status(201).json({
+            status: 'success',
+            data: {
+                tour: newTour
+            }
+        })
+})
+
 
 exports.updateTour = catchAsync(async (req, res, next) => {
         const tour = await Tour.findByIdAndUpdate(req.params.id, req.body, {
@@ -112,7 +113,7 @@ exports.getTourStats = catchAsync(async (req, res, next) => {
             // {
             //     $match: { _id: { $ne: 'EASY '}}
             // }
-        ])
+        ]);
 
         res.status(200).json({
             status: 'success',
